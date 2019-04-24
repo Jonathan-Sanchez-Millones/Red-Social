@@ -96,7 +96,7 @@ function loginUser(req,res){
                     }else{
                         //devolvemos datos de usuario
                         user.password=undefined;
-                    return res.status(404).send({user});
+                    return res.status(200).send({user});
                     }
                     
                 }else{
@@ -168,8 +168,8 @@ function getUsers(req,res){
         followUserIds(identity_user_id).then((value)=>{
             return res.status(200).send({
                 users,
-                users_following:value.following,
-                users_follow_me:value.followed,
+               users_following:value.following,
+               users_follow_me:value.followed,
                 total,
                 pages:Math.ceil(total/itemsPerPage)
             });
@@ -261,13 +261,27 @@ function updateUser(req,res){
     if(userId!=req.user.sub){
         return res.status(500).send({message:'No tienes permiso para actualizar los datos del ususario'});
     }
-    User.findByIdAndUpdate(userId,update,{new:true},(err,userUpdated)=>{
-        if(err) return res.status(500).send({message:'Error en la peticion'});
 
-        if(!userUpdated) return res.status(404).send({message:'No se ha podido actualizar el ususario'});
+    User.find({$or:[{email:update.email.toLowerCase()},{nick:update.nick.toLowerCase()}]}).exec((err,users)=>{
+            var user_isset=false;
+            users.forEach((user)=>{
 
-        return res.status(200).send({user:userUpdated});
-    });
+                if(user && user._id!=userId) user_isset=true;
+            });
+
+            if(user_isset) return res.status(404).send({message:'Los datos ya estan en uso'});
+            
+
+            User.findByIdAndUpdate(userId,update,{new:true},(err,userUpdated)=>{
+                if(err) return res.status(500).send({message:'Error en la peticion'});
+
+                if(!userUpdated) return res.status(404).send({message:'No se ha podido actualizar el ususario'});
+
+                return res.status(200).send({user:userUpdated});
+            });
+        });
+
+    
 }
 
 //subir archivos de imagen/avatar de usuario

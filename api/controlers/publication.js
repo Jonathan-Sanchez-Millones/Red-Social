@@ -56,6 +56,8 @@ function getPublications(req,res){
             follows_clean.push(follow.followed);
         });
 
+        follows_clean.push(req.user.sub);
+
         Publication.find({user:{"$in":follows_clean}}).sort('-created_at').populate('user').paginate(page,itemsPerPage,(err,publications,total)=>{
             
             if(err) return res.status(500).send({message:'Error al devolver publicaciones'});
@@ -66,11 +68,52 @@ function getPublications(req,res){
                 total_items:total,
                 pages:Math.ceil(total/itemsPerPage),
                 page:page,
+                items_per_page:itemsPerPage,
                 publications
             })
 
         });
     });
+
+
+}
+
+function getPublicationsUser(req,res){
+
+    var page=1;
+    if(req.params.page){
+
+        page=req.params.page;
+
+    }
+
+    var user=req.user.sub;
+    if(req.params.user){
+
+        var user=req.params.user;
+
+    }
+
+    var itemsPerPage=4;
+
+    
+
+        Publication.find({user:user}).sort('-created_at').populate('user').paginate(page,itemsPerPage,(err,publications,total)=>{
+            
+            if(err) return res.status(500).send({message:'Error al devolver publicaciones'});
+
+            if(!publications) return res.status(404).send({message:'No hay publicaciones'});
+
+            return res.status(200).send({
+                total_items:total,
+                pages:Math.ceil(total/itemsPerPage),
+                page:page,
+                items_per_page:itemsPerPage,
+                publications
+            });
+
+        });
+
 
 
 }
@@ -91,7 +134,6 @@ function deletePublication(req,res){
 
     Publication.find({user:req.user.sub,'_id':publicationId}).remove(err=>{
         if(err) return res.status(500).send({message:'Error al borrar la publicacion'});
-        if(!publicationRemoved) return res.status(404).send({message:'No se ha borrado la publicacion'});
     
         return res.status(200).send({message:'Publicacion eliminada correctamente'});
     });
@@ -180,5 +222,6 @@ module.exports={
     getPublication,
     deletePublication,
     uploadImage,
-    getImageFile
+    getImageFile,
+    getPublicationsUser
 }
