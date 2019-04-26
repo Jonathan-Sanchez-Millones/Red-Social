@@ -1,4 +1,4 @@
-import {Component,OnInit,EventEmitter,Input,Output,ViewChild,ElementRef} from '@angular/core';
+import {Component,OnInit,DoCheck,EventEmitter,Input,Output,ViewChild,ElementRef} from '@angular/core';
 import {Router,ActivatedRoute,Params} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {GLOBAL} from '../../services/global';
@@ -14,7 +14,7 @@ import {UploadService} from '../../services/upload.service';
 	providers:[UserService,PublicationService,UploadService]
 	})
 
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit,DoCheck{
 
 	public identity;
 	public token;
@@ -48,6 +48,7 @@ export class SidebarComponent implements OnInit{
 
 	ngOnInit(){
 		console.log('sidebar.component ha sido cargado!!!');
+		this.stats=this._userService.getStats();
 	}
 
 
@@ -72,12 +73,29 @@ export class SidebarComponent implements OnInit{
 											this._router.navigate(['/timeline']);
 											this.sended.emit({send:'true'});
 											});
+
+
+
 					}else{
 											this.status='success';
 											form.reset();
 											this._router.navigate(['/timeline']);
 											this.sended.emit({send:'true'});
 					}
+											this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
 
 					
 				}else{
@@ -101,6 +119,7 @@ export class SidebarComponent implements OnInit{
 	fileChangeEvent(fileInput:any){
 
 		this.filesToUpload=<Array<File>>fileInput.target.files;
+		
 	}
 
 	//Output
@@ -111,5 +130,17 @@ export class SidebarComponent implements OnInit{
 
 
 		this.sended.emit({send:'true'});
+		
 	}
+
+/**/
+	
+  	ngDoCheck(){
+
+  		
+            this.stats=this._userService.getStats();
+      
+
+      
+  	}
 }

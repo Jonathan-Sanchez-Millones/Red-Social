@@ -132,13 +132,30 @@ export class TimelineComponent implements OnInit{
 
 	 	this._publicationService.deletePublication(this.token,id).subscribe(
 
-	 		response=>{
-	 				this.refresh();
+								 		response=>{
+								 				this.refresh();
+								 				this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 	 			},
 	 			error=>{
 	 				console.log(<any>error);
 	 			}
 	 		);
+
+
 	 }
 }
 

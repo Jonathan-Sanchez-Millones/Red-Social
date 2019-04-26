@@ -38,6 +38,9 @@ export class ProfileComponent implements OnInit{
 			this.url=GLOBAL.url;
 			this.followed=false;
 			this.following=false;
+			this._router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;/*con esto solucioné el problema*/
+    };
 
 	}
 
@@ -83,6 +86,21 @@ export class ProfileComponent implements OnInit{
 						else{
 							this.followed=false;
 						}
+
+						this._userService.getCounters().subscribe(
+
+							response=>{
+								localStorage.setItem('stats',JSON.stringify(response));
+								//this.status='success';
+								console.log(response);
+								//this._router.navigate(['/']);
+							},
+
+							error=>{
+
+								console.log(<any>error);
+							}
+							)
 					}
 					else{
 						this.status='error';
@@ -116,6 +134,21 @@ export class ProfileComponent implements OnInit{
 
 			response=>{
 				this.following=true;
+				this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 			},
 			error=>{
 
@@ -132,6 +165,21 @@ export class ProfileComponent implements OnInit{
 			response=>{
 
 					this.following=false;
+					this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 
 				},
 				error=>{

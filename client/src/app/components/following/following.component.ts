@@ -170,6 +170,22 @@ export class FollowingComponent implements OnInit{
 
 						this.status='success';
 						this.follows.push(followed);
+						this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
+						//localStorage.setItem('response.follow',JSON.stringify(response.follow));
 					}
 				},
 				error=>{
@@ -196,6 +212,22 @@ export class FollowingComponent implements OnInit{
 					if(search!=-1){
 						this.follows.splice(search,1);
 					}
+
+					this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 
 				},
 				error=>{

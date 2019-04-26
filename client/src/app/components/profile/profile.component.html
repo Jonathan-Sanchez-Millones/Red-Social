@@ -33,7 +33,7 @@
 			<div class="follow pull-left">
 				
 
-				<button class="btn btn-success" *ngIf="!following" (click)="followUser(user._id)">Seguir</button>
+				<button class="btn btn-success" *ngIf="!following && user._id!=identity._id" (click)="followUser(user._id)">Seguir</button>
 				<button class="btn btn-primary" *ngIf="following" (click)="unfollowUser(user._id) " (mouseenter)="mouseEnter(user._id)" (mouseleave)="mouseLeave()" [class.btn-danger]="user._id==followUserOver">
 				<span *ngIf="user._id==followUserOver;else following">
 				Dejar de seguir

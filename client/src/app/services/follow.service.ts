@@ -8,6 +8,7 @@ import {GLOBAL} from './global';
 export class FollowService{
 
 	public url:string;
+	
 
 	constructor(private _http:HttpClient){
 		this.url=GLOBAL.url;
@@ -33,6 +34,7 @@ export class FollowService{
 	}
 
 	getFollowing(token,userId=null,page=1):Observable<any>{
+		
 
 		let headers=new HttpHeaders().set('Content-Type','application/json')
 									.set('Authorization',token);
@@ -67,4 +69,6 @@ export class FollowService{
 
 		return this._http.get(this.url+'get-my-follows/true',{headers:headers});
 	}
+
+	
 }

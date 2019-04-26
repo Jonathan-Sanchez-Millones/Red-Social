@@ -12,12 +12,16 @@ import {GLOBAL} from './services/global';
 export class AppComponent implements OnInit,DoCheck{
   public title:string;
   public identity;
+  public following; 
   public url:string;
+  
 
   constructor(
     private _route:ActivatedRoute,
     private _router:Router,
-  	private _userService:UserService
+  	private _userService:UserService,
+    
+    
   	){
   		this.title='Fisibook';
       this.url=GLOBAL.url;
@@ -25,12 +29,18 @@ export class AppComponent implements OnInit,DoCheck{
 
   	ngOnInit(){
   		this.identity=this._userService.getIdentity();
+      
+
 
   	}
 
   	ngDoCheck(){
 
   		this.identity=this._userService.getIdentity();
+        
+      
+
+      
   	}
 
 
@@ -38,6 +48,7 @@ export class AppComponent implements OnInit,DoCheck{
 
       localStorage.clear();
       this.identity=null;
+     
       this._router.navigate(['/']);
     }
 }

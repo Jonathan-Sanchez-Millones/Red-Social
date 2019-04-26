@@ -102,6 +102,8 @@ export class FollowedComponent implements OnInit{
 
 						this._router.navigate(['/gente',1]);
 					}
+
+
 					
 				}
 			},
@@ -127,6 +129,20 @@ export class FollowedComponent implements OnInit{
 				if(response.user){
 				this.user=response.user;
 				this.getFollows(user_id,page);
+				this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
 				}
 				else{
 					this._router.navigate(['/home']);
@@ -170,6 +186,21 @@ export class FollowedComponent implements OnInit{
 
 						this.status='success';
 						this.follows.push(followed);
+						this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 					}
 				},
 				error=>{
@@ -196,6 +227,22 @@ export class FollowedComponent implements OnInit{
 					if(search!=-1){
 						this.follows.splice(search,1);
 					}
+
+					this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
+
 
 				},
 				error=>{
