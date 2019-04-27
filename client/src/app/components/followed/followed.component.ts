@@ -103,7 +103,7 @@ export class FollowedComponent implements OnInit{
 						this._router.navigate(['/gente',1]);
 					}
 
-
+				
 					
 				}
 			},

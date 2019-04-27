@@ -11,7 +11,7 @@
 
 .active{
 
-	background: #cc1717;
+	background: #5ACD9E;
 }
 
 .pointer{
@@ -29,7 +29,7 @@
 
 .navigation .navbar{
 		border-radius: 0px !important;
-		background:#e53c37 !important;
+		background:#54C295 !important;
 		border:none;
 }
 
@@ -40,7 +40,7 @@
 
 .navigation .navbar a:hover{
 
-		background: #cc1717 !important;
+		background: #5ACD9E !important;
 
 }
 
@@ -68,7 +68,7 @@
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus{
 
-	background: #cc1717 !important;
+	background: #5ACD9E !important;
 }
 
 .navigation .navbar .dropdown-menu a:hover{

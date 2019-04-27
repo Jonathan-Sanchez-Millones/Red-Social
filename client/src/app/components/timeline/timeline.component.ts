@@ -74,6 +74,20 @@ export class TimelineComponent implements OnInit{
 						if(page>this.pages){
 							//this._router.navigate(['/home']);
 						}
+						this._userService.getCounters().subscribe(
+
+											response=>{
+												localStorage.setItem('stats',JSON.stringify(response));
+												//this.status='success';
+												console.log(response);
+												//this._router.navigate(['/']);
+											},
+
+											error=>{
+
+												console.log(<any>error);
+											}
+											);
 					}
 
 					else{
