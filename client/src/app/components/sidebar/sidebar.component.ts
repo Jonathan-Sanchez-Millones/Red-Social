@@ -53,11 +53,14 @@ export class SidebarComponent implements OnInit,DoCheck{
 
 
 	onSubmit(form,$event){
+		this.publication.text=this.replaceURLWithHTMLLinks(this.publication.text);
 		this._publicationService.addPublication(this.token,this.publication).subscribe(
 
 			response=>{
 
 				if(response.publication){
+
+
 
 					//this.publication=response.publication;
 					if(this.filesToUpload && this.filesToUpload.length){
@@ -82,6 +85,9 @@ export class SidebarComponent implements OnInit,DoCheck{
 											this._router.navigate(['/timeline']);
 											this.sended.emit({send:'true'});
 					}
+											
+											
+
 											this._userService.getCounters().subscribe(
 
 											response=>{
@@ -143,4 +149,10 @@ export class SidebarComponent implements OnInit,DoCheck{
 
       
   	}
+
+  	replaceURLWithHTMLLinks(text)
+    {
+      var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+      return text.replace(exp,"<a href='$1' target='_blank'>$1 <br> <img src='https://www.youtube.com/watch?v=SMs0GnYze34&list=RDweeI1G46q0o&index=25'></div></a>"); 
+    }
 }

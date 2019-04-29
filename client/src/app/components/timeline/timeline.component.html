@@ -29,8 +29,11 @@
 					</div>
 				
 					<h4 class="publication-text pull-left">
-						{{publication.text}}
+						
+						<div [innerHtml]="publication.text"></div>
+
 					</h4>
+				
 
 					<div class="pull-right" *ngIf="publication.user._id==identity._id">
 						&nbsp;
