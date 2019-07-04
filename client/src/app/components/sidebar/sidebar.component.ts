@@ -153,6 +153,6 @@ export class SidebarComponent implements OnInit,DoCheck{
   	replaceURLWithHTMLLinks(text)
     {
       var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-      return text.replace(exp,"<a href='$1' target='_blank'>$1 <br> <img src='https://www.youtube.com/watch?v=SMs0GnYze34&list=RDweeI1G46q0o&index=25'></div></a>"); 
+      return text.replace(exp,"<a href='$1' target='_blank'>$1 <br> </div></a>"); 
     }
 }
